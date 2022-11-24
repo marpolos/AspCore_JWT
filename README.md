@@ -8,3 +8,7 @@ OBS: Incluo o settings a título de estudo
 
 How to get settings?
 https://stackoverflow.com/questions/46714677/read-values-from-local-settings-json-in-vs-2017-azure-function-development
+
+* Implementar: pegar setting.json por injeção e não expor as chaves
+
+Parte 2: https://www.macoratti.net/19/04/aspncore_jwt2.htm

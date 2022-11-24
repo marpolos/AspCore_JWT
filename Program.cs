@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ConfigSample.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// builder.Services.AddSingleton<IConfiguration>(Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,14 +15,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   {
     options.TokenValidationParameters = new TokenValidationParameters
     {
+      // Issuer : emissor
+      // Audience : audiência
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer = Configuration["Jwt:Issuer"],
-        ValidAudience = Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+        ValidIssuer = "MarcelleByMacoratti",
+        ValidAudience = "MinhaAudiencia",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("senhasupersecreta"))
     };
   });
 
@@ -38,8 +39,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// Authenticate conecta o middleware de autenticação ao pipe de Http
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
